@@ -201,7 +201,11 @@ export const message = {
   },
   "style": {
     "chartTitle": {
-      "value": "",
+      "value": "Test me out",
+      "defaultValue": ""
+    },
+    "legendTitle": {
+      "value": "categories",
       "defaultValue": ""
     },
     "legendOrientation": {
@@ -213,7 +217,7 @@ export const message = {
       "defaultValue": false
     },
     "xLabel": {
-      "value": "",
+      "value": "dates",
       "defaultValue": ""
     },
     "yMin": {

@@ -5,7 +5,7 @@ const local = require('./localMessage.js');
 
 // change this to 'true' for local development
 // change this to 'false' before deploying
-export const LOCAL = false;
+export const LOCAL = true;
 
 const isNull = (x) => {
   return !(x===0) && (x == null || x == "null" || x == "");
@@ -110,6 +110,7 @@ const drawViz = message => {
   // gather plot-level style parameters
   // -------------------------
   const chartTitle = styleVal(message, 'chartTitle');
+  const legendTitle = styleVal(message, 'legendTitle');
   const legendOrientation = styleVal(message, 'legendOrientation');
   const xAxisDate = styleVal(message, 'xAxisDate');
   const xLabel = styleVal(message, 'xLabel');
@@ -246,51 +247,45 @@ const drawViz = message => {
     }
   }
 
-  // format for y axis
+  // Chart Titles
   // -------------------------
-  let yAxisRange = {};
+  const chartTitleLayout = isNull(chartTitle) ? {} : {text: chartTitle};
+  const xAxisLayout = isNull(xLabel) ? {} : {title: {text: xLabel}};
+  const yAxisLayout = isNull(yLabel) ? {} : {title: {text: yLabel}};
+
+  // format y-axis range
+  // -------------------------
   let yAxisMetric = '';
   if (!isNumeric(yAxisMin) && !isNumeric(yAxisMax)){
-    yAxisRange = {};
+    yAxisLayout.range = 'auto'
   }
   else if (!isNumeric(yAxisMin)){
     yAxisMetric = hasWhiskerLower ? 'whisker_lower' : 'box_lower';
     const minValue = Math.min.apply(Math, message.tables.DEFAULT.map(function(d) {return Math.min(...d[yAxisMetric])}));
-    yAxisRange = {range: [Math.floor(0.9*minValue), yAxisMax]};
+    yAxisLayout.range = [Math.floor(0.9*minValue), yAxisMax];
   }
   else if (!isNumeric(yAxisMax)){
     yAxisMetric = hasWhiskerUpper ? 'whisker_upper' : 'box_upper';
     const maxValue = Math.max.apply(Math, message.tables.DEFAULT.map(function(d) {return Math.max(...d[yAxisMetric])}));
-    yAxisRange = {range: [yAxisMin, Math.ceil(1.1*maxValue)]};
+    yAxisLayout.range = [yAxisMin, Math.ceil(1.1*maxValue)];
   }
-  else {
-    yAxisRange = {range: [yAxisMin, yAxisMax]};
+  else{
+    yAxisLayout.range = [yAxisMin, yAxisMax];
   }
 
-  // Chart Titles
+  // format layout
   // -------------------------
-  let chartTitleLayout = {};
-  if (isNull(chartTitle)) {
-    chartTitleLayout = {}
-  }
-  else {
-    chartTitleLayout = {text: chartTitle}
-  }
-
-  let yAxisTitleLayout = {};
-  if (isNull(yLabel)) {
-    yAxisTitleLayout = {title: {}}
-  }
-  else {
-    yAxisTitleLayout = {title: {text: yLabel}}
-  }
-
-  let xAxisTitleLayout = {};
-  if (isNull(xLabel)) {
-    xAxisTitleLayout = {title: {}}
-  }
-  else {
-    xAxisTitleLayout = {title: {text: xLabel}}
+  let legendLayout = legendOrientation == 'v'
+    ? {orientation: legendOrientation}
+    : {
+        orientation: legendOrientation,
+        yanchor: "bottom",
+        y: 1.02,
+        xanchor: "left",
+        x: 0
+      }
+  if (!isNull(legendTitle)) {
+    legendLayout.title = {text: legendTitle}
   }
 
   // Layout config
@@ -298,20 +293,12 @@ const drawViz = message => {
   const layout = {
     height: height+60,
     showlegend: true,
-    yaxis: Object.assign({}, yAxisRange, yAxisTitleLayout, {tickformat: metricFmt}),
-    xaxis: Object.assign({}, xAxisTitleLayout),
+    yaxis: yAxisLayout,
+    xaxis: xAxisLayout,
     title: chartTitleLayout,
     boxmode: 'group',
     hovermode: 'closest',
-    legend: legendOrientation == 'v'
-      ? {orientation: legendOrientation}
-      : {
-          orientation: legendOrientation,
-          yanchor: "bottom",
-          y: 1.02,
-          xanchor: "left",
-          x: 0
-        }
+    legend: legendLayout
   };
 
   plotly.newPlot(myDiv, data, layout);

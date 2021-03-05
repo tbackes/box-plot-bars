@@ -88,6 +88,12 @@
           "defaultValue": ""
         },
         {
+          "id": "legendTitle",
+          "label": "Legend Title",
+          "type": "TEXTINPUT",
+          "defaultValue": ""
+        },
+        {
           "id": "legendOrientation",
           "label": "Legend Orientation",
           "type": "SELECT_RADIO",
