@@ -5,7 +5,7 @@ const local = require('./localMessage.js');
 
 // change this to 'true' for local development
 // change this to 'false' before deploying
-export const LOCAL = true;
+export const LOCAL = false;
 
 const isNull = (x) => {
   return !(x===0) && (x == null || x == "null" || x == "");
@@ -44,6 +44,11 @@ const themeValue = (message, styleId, themeId='themeFontFamily') => {
   return message.style[styleId].value !== undefined
     ? message.style[styleId].value
     : message.theme[themeId];
+};
+
+// parse a style value -- defaulting to the theme value if applicable
+const hasMetric = (message, metricId) => {
+  return message.fields[metricId][0] !== undefined;
 };
 
 const hex_to_rgba_str = (hex_color, opacity) => {
@@ -119,6 +124,14 @@ const drawViz = message => {
   const yLabel = styleVal(message, 'yLabel');
   const metricFmt = styleVal(message, 'metricFormatString');
 
+  // gather flags for which data is present
+  // -------------------------
+  const hasWhiskerUpper = hasMetric(message, 'whisker_upper');
+  const hasWhiskerLower = hasMetric(message, 'whisker_lower');
+  const hasMean = hasMetric(message, 'box_mean');
+  const hasStd = hasMetric(message, 'box_std');
+  const hasNotchspan = hasMetric(message, 'box_notchspan');
+
   // get unique breakdown groups
   // -------------------------
   let breakdown_values = [];
@@ -145,8 +158,6 @@ const drawViz = message => {
   // Gather data for hovertext
   // -------------------------
   const hovertype = styleVal(message, 'hoverCustom')
-  const hasWhiskerUpper = message.fields.whisker_upper[0] !== undefined;
-  const hasWhiskerLower = message.fields.whisker_lower[0] !== undefined;
 
   // the customdata array is used to supply all the values that will be displayed
   // in the custom hovertext; plotly cannot handle actual null values in 
@@ -157,18 +168,30 @@ const drawViz = message => {
     d.box_upper[0], 
     d.box_center[0], 
     d.box_lower[0], 
-    hasWhiskerLower && isNumeric(d.whisker_lower[0]) ? d.whisker_lower[0] : 'null'
+    hasWhiskerLower && isNumeric(d.whisker_lower[0]) ? d.whisker_lower[0] : 'null', 
+    hasMean && isNumeric(d.box_mean[0]) ? d.box_mean[0] : 'null', 
+    hasStd && isNumeric(d.box_std[0]) ? d.box_std[0] : 'null'
     ]); 
-  const column_names = ['whisker_upper', 'box_upper', 'box_center', 'box_lower', 'whisker_lower'];
-  const include_column = ['hoverWhisker', 'hoverBar', 'hoverCenter', 'hoverBar', 'hoverWhisker'];
+  const column_names = ['whisker_upper', 'box_upper', 'box_center', 'box_lower', 'whisker_lower', 'box_mean', 'box_std'];
+  const include_column = ['hoverWhisker', 'hoverBar', 'hoverCenter', 'hoverBar', 'hoverWhisker', 'hoverMean', 'hoverStd'];
 
   // create hovertext that includes each of the user-specified elements on its own line
   let hovertemp = []
   let i;
   for (i=0; i<5; i++){
-    if (message.fields[column_names[i]][0] !== undefined && styleVal(message, include_column[i])){
+    if (hasMetric(message,column_names[i]) && styleVal(message, include_column[i])){
       hovertemp.push(`${message.fields[column_names[i]][0].name}: %{customdata[${i}]:${metricFmt}}`);
     }
+  }
+  // separate logic for mean & std. dev.
+  if (styleVal(message, 'hoverMean') && styleVal(message, 'hoverStd') && hasMean && hasStd){
+    hovertemp.push(`Mean ± σ: %{customdata[5]:${metricFmt}} ± %{customdata[6]:${metricFmt}}`);
+  }
+  else if (styleVal(message, 'hoverMean') && hasMean){
+    hovertemp.push(`${message.fields.box_mean[0].name}: %{customdata[5]:${metricFmt}}`);
+  }
+  else if (styleVal(message, 'hoverStd') && hasStd){
+    hovertemp.push(`${message.fields.box_std[0].name}: %{customdata[6]:${metricFmt}}`);
   }
   const hovertemplate = hovertemp.join('<br>');
 
@@ -196,6 +219,9 @@ const drawViz = message => {
       q3: message.tables.DEFAULT.map(d => d.box_upper[0]),
       lowerfence: hasWhiskerLower ? message.tables.DEFAULT.map(d => d.whisker_lower[0]) : null,
       upperfence: hasWhiskerUpper ? message.tables.DEFAULT.map(d => d.whisker_upper[0]) : null,
+      mean: hasMean ? message.tables.DEFAULT.map(d => d.box_mean[0]) : null,
+      sd: hasStd ? message.tables.DEFAULT.map(d => d.box_std[0]) : null,
+      notchspan: hasNotchspan ? message.tables.DEFAULT.map(d => d.box_notchspan[0]) : null,
       marker : {color: metricLineColor},
       transforms: !has_breakdown ? [] : [{
       	type: 'filter',
@@ -220,7 +246,7 @@ const drawViz = message => {
       let hover_bar = {};
       for (j=0; j<5; j++){
         // check if data is available
-        if (message.fields[column_names[j]][0] !== undefined && styleVal(message, include_column[j])){
+        if (hasMetric(message,column_names[j]) && styleVal(message, include_column[j])){
           hover_bar = {
             type: 'bar',
             name: 'test',

@@ -72,6 +72,33 @@
             "min": 0,
             "max": 1
           }
+        },
+        {
+          "id": "box_mean",
+          "label": "Mean",
+          "type": "METRIC",
+          "options": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "id": "box_std",
+          "label": "Std. deviation",
+          "type": "METRIC",
+          "options": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "id": "box_notchspan",
+          "label": "Notch span",
+          "type": "METRIC",
+          "options": {
+            "min": 0,
+            "max": 1
+          }
         }
       ]
     }
@@ -192,6 +219,18 @@
         {
           "id": "hoverWhisker",
           "label": "Custom hover: display whisker values?",
+          "type": "CHECKBOX",
+          "defaultValue": "true"
+        },
+        {
+          "id": "hoverMean",
+          "label": "Custom hover: display mean?",
+          "type": "CHECKBOX",
+          "defaultValue": "true"
+        },
+        {
+          "id": "hoverStd",
+          "label": "Custom hover: display std. deviation?",
           "type": "CHECKBOX",
           "defaultValue": "true"
         }

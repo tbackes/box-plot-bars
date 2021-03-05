@@ -3,29 +3,6 @@ export const message = {
     "DEFAULT": [
       {
         "dimension": [
-          "20200106"
-        ],
-        "dimension_breakdown": [
-          "B"
-        ],
-        "box_center": [
-          2.5
-        ],
-        "box_lower": [
-          2.2
-        ],
-        "box_upper": [
-          2.77
-        ],
-        "whisker_lower": [
-          1.75
-        ],
-        "whisker_upper": [
-          3
-        ]
-      },
-      {
-        "dimension": [
           "20200206"
         ],
         "dimension_breakdown": [
@@ -41,10 +18,19 @@ export const message = {
           1.8
         ],
         "whisker_lower": [
-          1.25
+          0.98
         ],
         "whisker_upper": [
           1.9
+        ],
+        "box_mean": [
+          1.35
+        ],
+        "box_std": [
+          0.03
+        ],
+        "box_notchspan": [
+          0.3
         ]
       },
       {
@@ -68,29 +54,15 @@ export const message = {
         ],
         "whisker_upper": [
           2
-        ]
-      },
-      {
-        "dimension": [
-          "20200106"
         ],
-        "dimension_breakdown": [
-          "A"
+        "box_mean": [
+          1.1
         ],
-        "box_center": [
-          0.75
+        "box_std": [
+          0.02
         ],
-        "box_lower": [
-          0.25
-        ],
-        "box_upper": [
-          1
-        ],
-        "whisker_lower": [
-          0.1
-        ],
-        "whisker_upper": [
-          2.75
+        "box_notchspan": [
+          0.2
         ]
       },
       {
@@ -114,6 +86,79 @@ export const message = {
         ],
         "whisker_upper": [
           0.18
+        ],
+        "box_mean": [
+          0.05
+        ],
+        "box_std": [
+          0.01
+        ],
+        "box_notchspan": [
+          0.1
+        ]
+      },
+      {
+        "dimension": [
+          "20200106"
+        ],
+        "dimension_breakdown": [
+          "A"
+        ],
+        "box_center": [
+          0.75
+        ],
+        "box_lower": [
+          0.25
+        ],
+        "box_upper": [
+          1
+        ],
+        "whisker_lower": [
+          0.1
+        ],
+        "whisker_upper": [
+          null
+        ],
+        "box_mean": [
+          0.6
+        ],
+        "box_std": [
+          0.06
+        ],
+        "box_notchspan": [
+          0.6
+        ]
+      },
+      {
+        "dimension": [
+          "20200106"
+        ],
+        "dimension_breakdown": [
+          "B"
+        ],
+        "box_center": [
+          2.5
+        ],
+        "box_lower": [
+          2.2
+        ],
+        "box_upper": [
+          2.77
+        ],
+        "whisker_lower": [
+          1.75
+        ],
+        "whisker_upper": [
+          3
+        ],
+        "box_mean": [
+          2.6
+        ],
+        "box_std": [
+          0.05
+        ],
+        "box_notchspan": [
+          0.5
         ]
       },
       {
@@ -137,6 +182,15 @@ export const message = {
         ],
         "whisker_upper": [
           0.25
+        ],
+        "box_mean": [
+          -0.2
+        ],
+        "box_std": [
+          0.04
+        ],
+        "box_notchspan": [
+          0.4
         ]
       }
     ]
@@ -184,7 +238,7 @@ export const message = {
     ],
     "whisker_lower": [
       {
-        "id": "qt_y6xdzlkjhc",
+        "id": "qt_xw0p2qpkhc",
         "name": "whisker_low",
         "type": "NUMBER",
         "concept": "METRIC"
@@ -192,8 +246,32 @@ export const message = {
     ],
     "whisker_upper": [
       {
-        "id": "qt_55es2lkjhc",
+        "id": "qt_j9xgrrpkhc",
         "name": "whisker_high",
+        "type": "NUMBER",
+        "concept": "METRIC"
+      }
+    ],
+    "box_mean": [
+      {
+        "id": "qt_vkv8ndvkhc",
+        "name": "mean",
+        "type": "NUMBER",
+        "concept": "METRIC"
+      }
+    ],
+    "box_std": [
+      {
+        "id": "qt_q97ssdvkhc",
+        "name": "sd",
+        "type": "NUMBER",
+        "concept": "METRIC"
+      }
+    ],
+    "box_notchspan": [
+      {
+        "id": "qt_12utwdvkhc",
+        "name": "notch_span",
         "type": "NUMBER",
         "concept": "METRIC"
       }
@@ -201,15 +279,15 @@ export const message = {
   },
   "style": {
     "chartTitle": {
-      "value": "Test me out",
+      "value": "test me out",
       "defaultValue": ""
     },
     "legendTitle": {
-      "value": "categories",
+      "value": "My Categories",
       "defaultValue": ""
     },
     "legendOrientation": {
-      "value": "h",
+      "value": "v",
       "defaultValue": "v"
     },
     "xAxisDate": {
@@ -217,19 +295,19 @@ export const message = {
       "defaultValue": false
     },
     "xLabel": {
-      "value": "dates",
+      "value": "test",
       "defaultValue": ""
     },
     "yMin": {
-      "value": "null",
+      "value": "",
       "defaultValue": "null"
     },
     "yMax": {
-      "value": "null",
+      "value": "",
       "defaultValue": "null"
     },
     "yLabel": {
-      "value": "",
+      "value": "y axis",
       "defaultValue": ""
     },
     "hoverCustom": {
@@ -248,229 +326,57 @@ export const message = {
       "value": true,
       "defaultValue": false
     },
+    "hoverMean": {
+      "value": true,
+      "defaultValue": false
+    },
+    "hoverStd": {
+      "value": false,
+      "defaultValue": false
+    },
     "metricFormatString": {
       "value": ",.2f",
       "defaultValue": ",.0f"
-    },
-    "ciFormatString": {
-      "value": ",.2f",
-      "defaultValue": ",.0f"
-    },
-    "metricLineWeight1": {
-      "value": 2,
-      "defaultValue": 2
     },
     "metricColor1": {
       "value": {},
       "defaultValue": {}
     },
-    "metricFillColor1": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity1": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints1": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI1": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight2": {
-      "value": 2,
-      "defaultValue": 2
-    },
     "metricColor2": {
       "value": {},
       "defaultValue": {}
-    },
-    "metricFillColor2": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity2": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints2": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI2": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight3": {
-      "value": 2,
-      "defaultValue": 2
     },
     "metricColor3": {
       "value": {},
       "defaultValue": {}
     },
-    "metricFillColor3": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity3": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints3": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI3": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight4": {
-      "value": 2,
-      "defaultValue": 2
-    },
     "metricColor4": {
       "value": {},
       "defaultValue": {}
-    },
-    "metricFillColor4": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity4": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints4": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI4": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight5": {
-      "value": 2,
-      "defaultValue": 2
     },
     "metricColor5": {
       "value": {},
       "defaultValue": {}
     },
-    "metricFillColor5": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity5": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints5": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI5": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight6": {
-      "value": 2,
-      "defaultValue": 2
-    },
     "metricColor6": {
       "value": {},
       "defaultValue": {}
-    },
-    "metricFillColor6": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity6": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints6": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI6": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight7": {
-      "value": 2,
-      "defaultValue": 2
     },
     "metricColor7": {
       "value": {},
       "defaultValue": {}
     },
-    "metricFillColor7": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity7": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints7": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI7": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight8": {
-      "value": 2,
-      "defaultValue": 2
-    },
     "metricColor8": {
       "value": {},
       "defaultValue": {}
-    },
-    "metricFillColor8": {
-      "value": {},
-      "defaultValue": {}
-    },
-    "metricFillOpacity8": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints8": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI8": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricLineWeight9": {
-      "value": 2,
-      "defaultValue": 2
     },
     "metricColor9": {
       "value": {},
       "defaultValue": {}
     },
-    "metricFillColor9": {
+    "metricColor10": {
       "value": {},
       "defaultValue": {}
-    },
-    "metricFillOpacity9": {
-      "value": 0.1,
-      "defaultValue": 0.1
-    },
-    "metricShowPoints9": {
-      "value": false,
-      "defaultValue": false
-    },
-    "metricShowCI9": {
-      "value": false,
-      "defaultValue": false
     }
   },
   "theme": {

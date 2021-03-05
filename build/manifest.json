@@ -1,5 +1,5 @@
 {
-  "name": "Box plot error bars",
+  "name": "Box plot style bars",
   "organization": "(dev) tbackes",
   "description": "Box-plot style bars with custom endpoints, generated using plotly.js.",
   "logoUrl": "https://logo",
@@ -8,7 +8,7 @@
   "privacyPolicyUrl": "https://url",
   "termsOfServiceUrl": "https://url",
   "packageUrl": "https://url",
-  "devMode": true,
+  "devMode": "true",
   "components": [
     {
       "name": "box-plot-bars",
