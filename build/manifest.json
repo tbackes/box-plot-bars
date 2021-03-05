@@ -1,6 +1,6 @@
 {
   "name": "Box plot style bars",
-  "organization": "tbackes",
+  "organization": "(dev) tbackes",
   "description": "Box-plot style bars with custom endpoints, generated using plotly.js.",
   "logoUrl": "https://logo",
   "organizationUrl": "https://url",
@@ -15,9 +15,9 @@
       "description": "Box-plot style bars with custom endpoints.",
       "iconUrl": "https://url",
       "resource": {
-        "js": "gs://tbackes_viz/box-plot-bar/index.js",
-        "config": "gs://tbackes_viz/box-plot-bar/index.json",
-        "css": "gs://tbackes_viz/box-plot-bar/index.css"
+        "js": "gs://tbackes_viz/box-plot-bar-dev/index.js",
+        "config": "gs://tbackes_viz/box-plot-bar-dev/index.json",
+        "css": "gs://tbackes_viz/box-plot-bar-dev/index.css"
       }
     }
   ]

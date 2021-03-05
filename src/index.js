@@ -277,7 +277,7 @@ const drawViz = message => {
   // -------------------------
   const chartTitleLayout = isNull(chartTitle) ? {} : {text: chartTitle};
   const xAxisLayout = isNull(xLabel) ? {} : {title: {text: xLabel}};
-  const yAxisLayout = isNull(yLabel) ? {} : {title: {text: yLabel}};
+  const yAxisLayout = isNull(yLabel) ? {tickformat: metricFmt} : {title: {text: yLabel}, tickformat: metricFmt};
 
   // format y-axis range
   // -------------------------
