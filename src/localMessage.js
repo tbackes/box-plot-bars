@@ -204,8 +204,12 @@ export const message = {
       "value": "",
       "defaultValue": ""
     },
+    "legendOrientation": {
+      "value": "h",
+      "defaultValue": "v"
+    },
     "xAxisDate": {
-      "value": false,
+      "value": true,
       "defaultValue": false
     },
     "xLabel": {

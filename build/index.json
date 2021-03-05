@@ -86,6 +86,22 @@
           "label": "Chart Title",
           "type": "TEXTINPUT",
           "defaultValue": ""
+        },
+        {
+          "id": "legendOrientation",
+          "label": "Legend Orientation",
+          "type": "SELECT_RADIO",
+          "defaultValue": "v",
+          "options": [
+            {
+              "label": "Vertical",
+              "value": "v"
+            },
+            {
+              "label": "Horizontal (Top)",
+              "value": "h"
+            }
+          ]
         }
       ]
     },
@@ -181,13 +197,7 @@
       "elements": [
         {
           "id": "metricFormatString",
-          "label": "Format String for Metrics",
-          "type": "TEXTINPUT",
-          "defaultValue": ",.0f"
-        },
-        {
-          "id": "ciFormatString",
-          "label": "Format String for CI",
+          "label": "Format String for y-axis and hovertext",
           "type": "TEXTINPUT",
           "defaultValue": ",.0f"
         }
@@ -198,44 +208,12 @@
       "label": "Metric #1",
       "elements": [
         {
-          "id": "metricLineWeight1",
-          "label": "Line Weight 1",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor1",
-          "label": "Line Color 1",
+          "label": "Box Color 1",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor1",
-          "label": "CI Fill Color 1",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity1",
-          "label": "CI Fill Opacity 1",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints1",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI1",
-          "label": "Show CI #1?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -245,44 +223,12 @@
       "label": "Metric #2",
       "elements": [
         {
-          "id": "metricLineWeight2",
-          "label": "Line Weight 2",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor2",
-          "label": "Line Color 2",
+          "label": "Box Color 2",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor2",
-          "label": "CI Fill Color 2",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity2",
-          "label": "CI Fill Opacity 2",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints2",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI2",
-          "label": "Show CI #2?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -292,44 +238,12 @@
       "label": "Metric #3",
       "elements": [
         {
-          "id": "metricLineWeight3",
-          "label": "Line Weight 3",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor3",
-          "label": "Line Color 3",
+          "label": "Box Color 3",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor3",
-          "label": "CI Fill Color 3",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity3",
-          "label": "CI Fill Opacity 3",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints3",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI3",
-          "label": "Show CI #3?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -339,44 +253,12 @@
       "label": "Metric #4",
       "elements": [
         {
-          "id": "metricLineWeight4",
-          "label": "Line Weight 4",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor4",
-          "label": "Line Color 4",
+          "label": "Box Color 4",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor4",
-          "label": "CI Fill Color 4",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity4",
-          "label": "CI Fill Opacity 4",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints4",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI4",
-          "label": "Show CI #4?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -386,44 +268,12 @@
       "label": "Metric #5",
       "elements": [
         {
-          "id": "metricLineWeight5",
-          "label": "Line Weight 5",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor5",
-          "label": "Line Color 5",
+          "label": "Box Color 5",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor5",
-          "label": "CI Fill Color 5",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity5",
-          "label": "CI Fill Opacity 5",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints5",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI5",
-          "label": "Show CI #5?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -433,44 +283,12 @@
       "label": "Metric #6",
       "elements": [
         {
-          "id": "metricLineWeight6",
-          "label": "Line Weight 6",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor6",
-          "label": "Line Color 6",
+          "label": "Box Color 6",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor6",
-          "label": "CI Fill Color 6",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity6",
-          "label": "CI Fill Opacity 6",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints6",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI6",
-          "label": "Show CI #6?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -480,44 +298,12 @@
       "label": "Metric #7",
       "elements": [
         {
-          "id": "metricLineWeight7",
-          "label": "Line Weight 7",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor7",
-          "label": "Line Color 7",
+          "label": "Box Color 7",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor7",
-          "label": "CI Fill Color 7",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity7",
-          "label": "CI Fill Opacity 7",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints7",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI7",
-          "label": "Show CI #7?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -527,44 +313,12 @@
       "label": "Metric #8",
       "elements": [
         {
-          "id": "metricLineWeight8",
-          "label": "Line Weight 8",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor8",
-          "label": "Line Color 8",
+          "label": "Box Color 8",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillColor8",
-          "label": "CI Fill Color 8",
-          "type": "BORDER_COLOR",
-          "defaultValue": {
-            "color": ""
-          }
-        },
-        {
-          "id": "metricFillOpacity8",
-          "label": "CI Fill Opacity 8",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints8",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI8",
-          "label": "Show CI #8?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }
@@ -574,44 +328,27 @@
       "label": "Metric #9",
       "elements": [
         {
-          "id": "metricLineWeight9",
-          "label": "Line Weight 9",
-          "type": "LINE_WEIGHT",
-          "defaultValue": "2"
-        },
-        {
           "id": "metricColor9",
-          "label": "Line Color 9",
+          "label": "Box Color 9",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
+        }
+      ]
+    }
+    ,
+    {
+      "id": "metricStyles10",
+      "label": "Metric #10",
+      "elements": [
         {
-          "id": "metricFillColor9",
-          "label": "CI Fill Color 9",
+          "id": "metricColor10",
+          "label": "Box Color 10",
           "type": "BORDER_COLOR",
           "defaultValue": {
             "color": ""
           }
-        },
-        {
-          "id": "metricFillOpacity9",
-          "label": "CI Fill Opacity 9",
-          "type": "OPACITY",
-          "defaultValue": "0.1"
-        },
-        {
-          "id": "metricShowPoints9",
-          "label": "Show Points",
-          "type": "CHECKBOX",
-          "defaultValue": "false"
-        },
-        {
-          "id": "metricShowCI9",
-          "label": "Show CI #9?",
-          "type": "CHECKBOX",
-          "defaultValue": "true"
         }
       ]
     }

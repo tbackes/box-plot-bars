@@ -103,22 +103,23 @@ const drawViz = message => {
 
   document.body.appendChild(myDiv);
 
-  // write your visualization code here
   //console.log("I'm the callback and I was passed this data: " + JSON.stringify(message.style, null, '  '));
   // console.log("I'm the callback and I was passed this data: " + JSON.stringify(message.tables, null, '  '));
   // console.log("Theme data: " + JSON.stringify(message.theme, null, '  '));
 
-  //gather plot-level style parameters
+  // gather plot-level style parameters
+  // -------------------------
   const chartTitle = styleVal(message, 'chartTitle');
+  const legendOrientation = styleVal(message, 'legendOrientation');
   const xAxisDate = styleVal(message, 'xAxisDate');
   const xLabel = styleVal(message, 'xLabel');
   const yAxisMin = styleVal(message, 'yMin');
   const yAxisMax = styleVal(message, 'yMax');
   const yLabel = styleVal(message, 'yLabel');
   const metricFmt = styleVal(message, 'metricFormatString');
-  const ciFmt = styleVal(message, 'ciFormatString');
 
   // get unique breakdown groups
+  // -------------------------
   let breakdown_values = [];
   let n_groups = [];
   let has_breakdown = true;
@@ -141,51 +142,48 @@ const drawViz = message => {
   }
 
   // Gather data for hovertext
+  // -------------------------
   const hovertype = styleVal(message, 'hoverCustom')
   const hasWhiskerUpper = message.fields.whisker_upper[0] !== undefined;
   const hasWhiskerLower = message.fields.whisker_lower[0] !== undefined;
 
+  // the customdata array is used to supply all the values that will be displayed
+  // in the custom hovertext; plotly cannot handle actual null values in 
+  // customdata, so any missing values are replaced with a string. plotly will
+  // displays all strings as NaN in the hovertext.
   const customdata = message.tables.DEFAULT.map(d => [
-    hasWhiskerUpper ? d.whisker_upper[0] : null, 
+    hasWhiskerUpper && isNumeric(d.whisker_upper[0]) ? d.whisker_upper[0] : 'null', 
     d.box_upper[0], 
     d.box_center[0], 
     d.box_lower[0], 
-    hasWhiskerLower ? d.whisker_lower[0] : null
+    hasWhiskerLower && isNumeric(d.whisker_lower[0]) ? d.whisker_lower[0] : 'null'
     ]); 
   const column_names = ['whisker_upper', 'box_upper', 'box_center', 'box_lower', 'whisker_lower'];
   const include_column = ['hoverWhisker', 'hoverBar', 'hoverCenter', 'hoverBar', 'hoverWhisker'];
 
+  // create hovertext that includes each of the user-specified elements on its own line
   let hovertemp = []
   let i;
   for (i=0; i<5; i++){
-    hovertemp.push(
-      message.fields[column_names[i]][0] !== undefined && styleVal(message, include_column[i])
-        ? `${message.fields[column_names[i]][0].name}: %{customdata[${i}]:${metricFmt}}`
-        : ''
-      );
+    if (message.fields[column_names[i]][0] !== undefined && styleVal(message, include_column[i])){
+      hovertemp.push(`${message.fields[column_names[i]][0].name}: %{customdata[${i}]:${metricFmt}}`);
+    }
   }
   const hovertemplate = hovertemp.join('<br>');
 
   // Gather data for x-axis
+  // -------------------------
   const xData = xAxisDate
     ? message.tables.DEFAULT.map(d => toDate(d.dimension[0])) 
     : message.tables.DEFAULT.map(d => d.dimension[0]);
 
   // loop through breakdown groups and add traces
+  // -------------------------
   let data = []
   // const n_groups = 1
   for (i=0; i<n_groups; i++){
-    // console.log('i: '+i)
-
-    // Gather all style parameters
-    // series properties
-    const metricLineWeight =  styleVal(message, 'metricLineWeight'+(i+1));
+    // Gather all style parameters for series
     const metricLineColor =  themeColor(message, 'metricColor'+(i+1), 'themeSeriesColor', i);
-    const metricFillColor =  hex_to_rgba_str(
-      themeColor(message, 'metricFillColor'+(i+1), 'themeSeriesColor', i),
-      styleVal(message, 'metricFillOpacity'+(i+1)));
-    const metricShowPoints =  styleVal(message, 'metricShowPoints'+(i+1));
-    const metricShowCI =  styleVal(message, 'metricShowCI'+(i+1));
 
     // trace for metric trend line
     const trace_box = {
@@ -205,7 +203,7 @@ const drawViz = message => {
         value: breakdown_values[i]
       }],
       name: has_breakdown ? breakdown_values[i] : 'None', 
-      legendgroup: message.fields.box_center[0].name, 
+      legendgroup: has_breakdown ? breakdown_values[i] : 'None', 
       offsetgroup: has_offset ? `${i}` : 0, 
       showlegend: has_breakdown ? true : false,
       hoverinfo: hovertype == 0 ? 'y+name' : 'skip'
@@ -221,7 +219,7 @@ const drawViz = message => {
       let hover_bar = {};
       for (j=0; j<5; j++){
         // check if data is available
-        if (message.fields[column_names[j]][0] !== undefined){
+        if (message.fields[column_names[j]][0] !== undefined && styleVal(message, include_column[j])){
           hover_bar = {
             type: 'bar',
             name: 'test',
@@ -249,16 +247,20 @@ const drawViz = message => {
   }
 
   // format for y axis
+  // -------------------------
   let yAxisRange = {};
+  let yAxisMetric = '';
   if (!isNumeric(yAxisMin) && !isNumeric(yAxisMax)){
     yAxisRange = {};
   }
   else if (!isNumeric(yAxisMin)){
-    const minValue = Math.min.apply(Math, message.tables.DEFAULT.map(function(d) {return Math.min(...d.metric_lower)}));
+    yAxisMetric = hasWhiskerLower ? 'whisker_lower' : 'box_lower';
+    const minValue = Math.min.apply(Math, message.tables.DEFAULT.map(function(d) {return Math.min(...d[yAxisMetric])}));
     yAxisRange = {range: [Math.floor(0.9*minValue), yAxisMax]};
   }
   else if (!isNumeric(yAxisMax)){
-    const maxValue = Math.max.apply(Math, message.tables.DEFAULT.map(function(d) {return Math.max(...d.metric_upper)}));
+    yAxisMetric = hasWhiskerUpper ? 'whisker_upper' : 'box_upper';
+    const maxValue = Math.max.apply(Math, message.tables.DEFAULT.map(function(d) {return Math.max(...d[yAxisMetric])}));
     yAxisRange = {range: [yAxisMin, Math.ceil(1.1*maxValue)]};
   }
   else {
@@ -266,6 +268,7 @@ const drawViz = message => {
   }
 
   // Chart Titles
+  // -------------------------
   let chartTitleLayout = {};
   if (isNull(chartTitle)) {
     chartTitleLayout = {}
@@ -290,6 +293,8 @@ const drawViz = message => {
     xAxisTitleLayout = {title: {text: xLabel}}
   }
 
+  // Layout config
+  // -------------------------
   const layout = {
     height: height+60,
     showlegend: true,
@@ -298,13 +303,15 @@ const drawViz = message => {
     title: chartTitleLayout,
     boxmode: 'group',
     hovermode: 'closest',
-    // legend: {
-    //   orientation: 'h',
-    //   yanchor: "bottom",
-    //   y: 1.02,
-    //   xanchor: "right",
-    //   x: 1
-    // }
+    legend: legendOrientation == 'v'
+      ? {orientation: legendOrientation}
+      : {
+          orientation: legendOrientation,
+          yanchor: "bottom",
+          y: 1.02,
+          xanchor: "left",
+          x: 0
+        }
   };
 
   plotly.newPlot(myDiv, data, layout);
