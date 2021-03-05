@@ -244,7 +244,7 @@ const drawViz = message => {
       // add trace at each box limit,
       let j;
       let hover_bar = {};
-      for (j=0; j<5; j++){
+      for (j=0; j<column_names.length; j++){
         // check if data is available
         if (hasMetric(message,column_names[j]) && styleVal(message, include_column[j])){
           hover_bar = {

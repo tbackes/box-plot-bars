@@ -1,6 +1,6 @@
 {
   "name": "Box plot style bars",
-  "organization": "(dev) tbackes",
+  "organization": "tbackes",
   "description": "Box-plot style bars with custom endpoints, generated using plotly.js.",
   "logoUrl": "https://logo",
   "organizationUrl": "https://url",
