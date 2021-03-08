@@ -8,7 +8,7 @@
   "privacyPolicyUrl": "https://url",
   "termsOfServiceUrl": "https://url",
   "packageUrl": "https://url",
-  "devMode": "true",
+  "devMode": false,
   "components": [
     {
       "name": "box-plot-bars",
