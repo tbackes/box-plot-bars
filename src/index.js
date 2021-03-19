@@ -30,7 +30,7 @@ const styleVal = (message, styleId) => {
 // parse a style color -- defaulting to the theme color if applicable
 const themeColor = (message, styleId, themeId='themeSeriesColor', idx=null) => {
   // if a user specifed value is present, keep that
-  if (message.style[styleId].value.color !== undefined) {
+  if (message.style[styleId].value.color !== undefined && !isNull(message.style[styleId].value.color)) {
     return message.style[styleId].value.color;
   }
   // otherwise use the theme color
@@ -46,7 +46,7 @@ const themeValue = (message, styleId, themeId='themeFontFamily') => {
     : message.theme[themeId];
 };
 
-// parse a style value -- defaulting to the theme value if applicable
+// Is the metric present?
 const hasMetric = (message, metricId) => {
   return message.fields[metricId][0] !== undefined;
 };
@@ -78,6 +78,42 @@ const toDate = (dateString) => {
 Date.prototype.addDays = function(days) {
     return new Date(this.valueOf()+(24*60*60*days))
 }
+
+// Function that allows you to group array `xs`` by `key`, and returns the result of the 
+// reducing function `red` which uses default value []
+const groupBy = function(xs, key, red = (acc, curr) => ([...acc, curr]), init = []) {
+  return xs.reduce(function(rv, curr) {
+    let acc = rv[curr[key]] || init;
+    return { ...rv, [curr[key]]: red(acc, curr)};
+  }, {});
+};
+
+const getAggSortOrder = (aggFunc, sortAscend, message, groupName, sortName) => {
+
+  // calculate aggregate metrics by group
+  const reduceFun = (red, x) => {
+    return {
+      "count": red.count+1, 
+      "sum": red.sum + x[sortName][0], 
+      "avg": (red.sum + x[sortName][0]) / (red.count + 1),
+      "min": Math.min(red.min, x[sortName][0]),
+      "max": Math.max(red.max, x[sortName][0])
+    }
+  };
+  const init = {'count': 0, 'sum': 0, 'min': null, 'max': null};
+  const groupMetrics = groupBy(message.tables.DEFAULT, groupName, reduceFun, init);
+
+  // sort list of groups by the specified metric:
+  const sortedGroups = Object.entries(groupMetrics)
+    .sort(
+      sortAscend 
+      ? ([,a],[,b]) => (a[aggFunc] - b[aggFunc])
+      : ([,a],[,b]) => (b[aggFunc] - a[aggFunc])
+    )
+    .reduce((red, [k, v]) => {red.push(k); return red}, []);
+
+  return sortedGroups
+};
 
 const arraysEqual = (a, b) => {
   if (a === b) return true;
@@ -140,14 +176,27 @@ const drawViz = message => {
   let n_groups = [];
   let has_breakdown = true;
   let has_offset = true;
-  if (message.tables.DEFAULT[0].dimension_breakdown !== undefined){
+  if (hasMetric(message, 'dimension_breakdown')){
+    // Get a list of unique breakdown labels
     breakdown_values = [...new Set(message.tables.DEFAULT.map(d => d.dimension_breakdown[0]))];
-    console.log('All groups: ' + breakdown_values)
+    // If the user specified a specific sort order, than use that to order breakdown groups
+    if (hasMetric(message, 'breakdown_sort_order')) {
+      const sortAggFunc = styleVal(message, "sortAggFunc");
+      const sortAscend = styleVal(message, "sortAscend") == 'Ascending';
+      breakdown_values = getAggSortOrder(sortAggFunc, sortAscend, message, "dimension_breakdown", "breakdown_sort_order")
+      console.log('Sorted groups: ' + breakdown_values)
+    }
+    else {
+      console.log('Unsorted groups: ' + breakdown_values)
+    }
     n_groups = breakdown_values.length
     if (breakdown_values.length > 10){
       console.log(`More than 10 group by categories provided (n=${n_groups}). Truncating to only plot first 10.`)
       n_groups = 10
     }
+    // If dimension = breakdown, than there is only one bar per x-axis tick
+    // However, if dimension <> breakdown, then there is more than one bar per x-axis
+    // tick, and each bar has a slight offset. That's what hte following flag checks for:
     has_offset = !arraysEqual(message.tables.DEFAULT.map(d => d.dimension_breakdown[0]), 
       message.tables.DEFAULT.map(d => d.dimension[0]));
   }

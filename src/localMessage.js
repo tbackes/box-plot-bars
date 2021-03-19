@@ -8,6 +8,9 @@ export const message = {
         "dimension_breakdown": [
           "A"
         ],
+        "breadown_sort_order": [
+          1
+        ],
         "box_center": [
           1.35
         ],
@@ -39,6 +42,9 @@ export const message = {
         ],
         "dimension_breakdown": [
           "B"
+        ],
+        "breadown_sort_order": [
+          5
         ],
         "box_center": [
           1.3
@@ -72,6 +78,9 @@ export const message = {
         "dimension_breakdown": [
           "C"
         ],
+        "breadown_sort_order": [
+          2
+        ],
         "box_center": [
           0
         ],
@@ -103,6 +112,9 @@ export const message = {
         ],
         "dimension_breakdown": [
           "A"
+        ],
+        "breadown_sort_order": [
+          1
         ],
         "box_center": [
           0.75
@@ -136,6 +148,9 @@ export const message = {
         "dimension_breakdown": [
           "B"
         ],
+        "breadown_sort_order": [
+          5
+        ],
         "box_center": [
           2.5
         ],
@@ -167,6 +182,9 @@ export const message = {
         ],
         "dimension_breakdown": [
           "C"
+        ],
+        "breadown_sort_order": [
+          2
         ],
         "box_center": [
           -0.15
@@ -275,6 +293,14 @@ export const message = {
         "type": "NUMBER",
         "concept": "METRIC"
       }
+    ],
+    "breakdown_sort_order": [
+      {
+        "id": "djlkjsjfjjf",
+        "name": "Sort Order",
+        "type": "NUMBER",
+        "concept": "METRIC"
+      }
     ]
   },
   "style": {
@@ -289,6 +315,14 @@ export const message = {
     "legendOrientation": {
       "value": "v",
       "defaultValue": "v"
+    },
+    "sortAggFunc": {
+      "value": "max",
+      "defaultValue": "avg"
+    },
+    "sortAscend": {
+      "value": "Descending",
+      "defaultValue": "Descending"
     },
     "xAxisDate": {
       "value": true,

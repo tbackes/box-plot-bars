@@ -101,6 +101,21 @@
           }
         }
       ]
+    },
+    {
+      "id": "breakdownSort",
+      "label": "Breakdown Sort Order",
+      "elements": [
+        {
+          "id": "breakdown_sort_order",
+          "label": "Metric",
+          "type": "METRIC",
+          "options": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      ]
     }
   ],
   "style": [
@@ -133,6 +148,52 @@
             {
               "label": "Horizontal (Top)",
               "value": "h"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "breakdownSortStyle",
+      "label": "Breakdown Sort",
+      "elements": [
+        {
+          "id": "sortAggFunc",
+          "label": "Aggregate Function for Sort Order",
+          "type": "SELECT_RADIO",
+          "defaultValue": "avg",
+          "options": [
+            {
+              "value": "avg",
+              "label": "avg"
+            },
+            {
+              "value": "sum",
+              "label": "sum"
+            },
+            {
+              "value": "min",
+              "label": "min"
+            },
+            {
+              "value": "max",
+              "label": "max"
+            }
+          ]
+        },
+        {
+          "id": "sortAscend",
+          "label": "Sort Method",
+          "type": "SELECT_RADIO",
+          "defaultValue": "Descending",
+          "options": [
+            {
+              "value": "Descending",
+              "label": "Descending"
+            },
+            {
+              "value": "Ascending",
+              "label": "Ascending"
             }
           ]
         }
